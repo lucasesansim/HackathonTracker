@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Developer extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'first_name',
-        'last_name',
-        'email',
-        'phone',
-        'total_points',
-        'profile_thumbnail',
-    ];
+
+    public function hackathons() {
+        return $this->belongsToMany(Hackaton::class, 'developer_hackathon', 'developer_id', 'hackathon_id');
+    }
+
+    public function developments() {
+        return $this->hasMany(Development::class);
+    }
 }

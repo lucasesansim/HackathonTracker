@@ -8,9 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Development extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'name',
-        'place',
-        'held_in',
-    ];
+    protected $guarded = [];
+
+    public function hackathon() {
+        return $this->belongsTo(Hackathon::class);
+    }
+
+    public function developer() {
+        return $this->belongsTo(Developer::class);
+    }
 }
