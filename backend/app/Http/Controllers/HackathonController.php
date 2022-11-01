@@ -22,7 +22,7 @@ class HackathonController extends Controller
     /**
      * Display a listing of Hackathons based in page and pagesize.
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Hackathon|Collection
      */
     public function list(Request $request)
     {
@@ -35,7 +35,7 @@ class HackathonController extends Controller
             return response()->json(['error' => $validator->failed()], Response::HTTP_BAD_REQUEST);
         }
 
-        // TODO: check if needs to manually include the users its related to
+        // TODO: check if needs to manually include the developments its related to
         return Hackathon::orderBy('held_in', 'desc')
             ->offset($data['page'] * $data['pageSize'])
             ->limit($data['pageSize'])
@@ -58,7 +58,7 @@ class HackathonController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        // TODO: include related users
+        // TODO: include related developments?
         return $hackathon;
     }
 }
