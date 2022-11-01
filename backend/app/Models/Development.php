@@ -10,6 +10,13 @@ class Development extends Model
     use HasFactory;
     protected $guarded = [];
 
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
     public function hackathon() {
         return $this->belongsTo(Hackathon::class);
     }
