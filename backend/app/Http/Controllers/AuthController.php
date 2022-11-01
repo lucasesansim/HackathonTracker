@@ -36,16 +36,16 @@ class AuthController extends Controller
             return response()->json(['error' => $validator->failed()], Response::HTTP_BAD_REQUEST);
         }
 
-        $user = User::create([
+        $userData = array(
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password) // may need to use md5($request->password) instead.
-        ]);
+            'password' => bcrypt($request->password)
+        );
+        $user = User::create($userData);
 
-        // $credentials = $request->only('email', 'password');
         return response()->json([
             'message' => 'User created',
-            'token' => JWTAuth::attempt(array($request->email, $request->password)), // may need to use $credentials instead
+            'token' => JWTAuth::attempt(array($request->email, $request->password)),
             'user' => $user
         ]);
     }
@@ -92,58 +92,34 @@ class AuthController extends Controller
 
     /*
      * Logs out a user, destroying its token.
-     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout(Request $request)
+    public function logout()
     {
-        $validator = Validator::make(
-            $request->only('token'), 
-            [
-                'token' => 'required'
-            ],
-            [
-                'required' => 'The :attribute field is required.'
-            ]
-        );
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->failed()], 400);
-        }
-
         try {
-            Auth::logout();
+            JWTAuth::invalidate();
         } catch (JWTException $exception) {
             return response()->json([
                 'message' => $exception->getMessage()
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        return response()->json([
-            'message' => 'User disconnected'
-        ]);
+        return response()->noContent();
     }
 
     /*
-     * Get's a user's data.
+     * Get's a user's data, token must be present in header.
      * @return \Illuminate\Http\JsonResponse
      */
     public function getLoggedUser()
     {
-        if(Auth::hasUser()) {
-            return response()->json([
-                'user' => Auth::user()
-            ]);
-        } else {
-            return response()->json([
-                'message' => 'No user is logged in'
-            ], Response::HTTP_FORBIDDEN);
-        }
-
-        // $user = Auth::authenticate($request->token);
-        // if(!$user)
-        //     return response()->json([
-        //         'message' => 'Invalid token / token expired',
-        //     ], 401);
-        // return response()->json(['user' => $user]);
+        return response()->json([
+            'status' => 'success',
+            'user' => Auth::user(),
+            'authorization' => [
+                'token' => JWTAuth::fromUser(JWTAuth::toUser()),
+                'type' => 'bearer',
+            ]
+        ]);
     }
 }

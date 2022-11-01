@@ -21,6 +21,7 @@ class HackathonController extends Controller
 
     /**
      * Display a listing of Hackathons based in page and pagesize.
+     * This API is the one that fulfills 'retrieve both hackathons with their developers' requirement.
      * @param  \Illuminate\Http\Request  $request
      * @return Hackathon|Collection
      */
@@ -35,11 +36,18 @@ class HackathonController extends Controller
             return response()->json(['error' => $validator->failed()], Response::HTTP_BAD_REQUEST);
         }
 
-        // TODO: check if needs to manually include the developments its related to
-        return Hackathon::orderBy('held_in', 'desc')
+        $hackathons = Hackathon::orderBy('held_in', 'desc')
             ->offset($data['page'] * $data['pageSize'])
             ->limit($data['pageSize'])
             ->get();
+
+        // This snippet is for the Eloquent ORM to include in the response
+        foreach ($hackathons as $hackathon) {
+            $hackathon->developers;
+            $hackathon->developments; // TODO: might remove if no time for opening new screen that fetches Hackathon detail
+        }
+        
+        return response()->json($hackathons, Response::HTTP_OK);
     }
 
     /**
@@ -50,15 +58,14 @@ class HackathonController extends Controller
      */
     public function show($id)
     {
-
         $hackathon = Hackathon::find($id);
         if (!$hackathon) {
             return response()->json([
                 'message' => 'Product not found.'
             ], Response::HTTP_NOT_FOUND);
         }
+        $hackathon->developments;
 
-        // TODO: include related developments?
         return $hackathon;
     }
 }

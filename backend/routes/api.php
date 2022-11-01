@@ -25,7 +25,7 @@ Route::post('login', [AuthController::class, 'authenticate']);
 Route::post('register', [AuthController::class, 'register']);
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('logout', [AuthController::class, 'logout']);
-    Route::post('get-user', [AuthController::class, 'getUser']);
+    Route::get('logged-user', [AuthController::class, 'getLoggedUser']);
     Route::get('hackathons', [HackathonController::class, 'list']);
     Route::get('hackathons/{id}', [HackathonController::class, 'show']);
     Route::get('topTenDevelopers', [DeveloperController::class, 'listTopTenDevelopers']);
