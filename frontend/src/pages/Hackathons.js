@@ -14,6 +14,7 @@ import {
 import { makeStyles } from '@mui/styles';
 import React from 'react';
 import Moment from 'react-moment';
+import { useStore } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PropagateLoader } from 'react-spinners';
 
@@ -21,6 +22,9 @@ const useStyles = makeStyles({
   card: {
     margin: '16px',
     minWidth: 1300
+  },
+  loader: {
+    marginBottom: '32px'
   }
 });
 
@@ -177,6 +181,8 @@ const Hackathons = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [loading, setLoading] = React.useState(false);
+	const store = useStore();
+	console.log(store.getState())
 
   const handleChangePage = (newPage) => {
     setPage(newPage);
@@ -249,6 +255,7 @@ const Hackathons = () => {
               </TableBody>
             </Table>
           </TableContainer>
+          {/* TODO: further implementation, use infinite scroller for smoother UX. */}
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
@@ -259,7 +266,7 @@ const Hackathons = () => {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
           {loading && (
-            <div>
+            <div className={classes.loader}>
               <PropagateLoader color="#ABD9F1"/>
             </div>
           )}
