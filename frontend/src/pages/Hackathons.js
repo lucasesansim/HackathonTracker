@@ -12,11 +12,12 @@ import {
   Typography 
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Moment from 'react-moment';
 import { useStore } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PropagateLoader } from 'react-spinners';
+import ActionsRestClient from '../http/ActionsClient';
 
 const useStyles = makeStyles({
   card: {
@@ -183,6 +184,13 @@ const Hackathons = () => {
   const [loading, setLoading] = React.useState(false);
 	const store = useStore();
 	console.log(store.getState())
+
+	// Sharemenu effect
+	useEffect(() => {
+		console.log('hi')
+		ActionsRestClient.getHackathon(2);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
   const handleChangePage = (newPage) => {
     setPage(newPage);
