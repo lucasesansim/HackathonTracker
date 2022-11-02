@@ -70,7 +70,8 @@ const SideBar = () => {
         '& .MuiDrawer-paper': {
           width: drawerWidth,
           boxSizing: 'border-box',
-        },
+          height: 'auto'
+        }
       }}
       variant="permanent"
       anchor="left"
@@ -115,15 +116,13 @@ const SideBar = () => {
           * of setting, the component in the bottomprobably using refs*/}
         <Divider style={{ marginTop: '80vh' }}/>
         <ListItem disablePadding >
-            <ListItemButton 
-              {...actionProperty}
-            >
-              <ListItemIcon >
-                <AuthIcon />
-              </ListItemIcon>
-              <ListItemText primary={AuthLabel} />
-            </ListItemButton>
-          </ListItem>
+          <ListItemButton {...actionProperty}>
+            <ListItemIcon >
+              <AuthIcon />
+            </ListItemIcon>
+            <ListItemText primary={AuthLabel} />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Drawer>
   )
