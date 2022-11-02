@@ -14,10 +14,11 @@ import {
 import { makeStyles } from '@mui/styles';
 import React, { useEffect } from 'react';
 import Moment from 'react-moment';
-import { useStore } from 'react-redux';
+import { useDispatch, useStore } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PropagateLoader } from 'react-spinners';
 import ActionsRestClient from '../http/ActionsClient';
+import { getHackathons, login } from '../store/actions';
 
 const useStyles = makeStyles({
   card: {
@@ -183,12 +184,12 @@ const Hackathons = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [loading, setLoading] = React.useState(false);
 	const store = useStore();
+	const dispatch = useDispatch()
 	console.log(store.getState())
 
-	// Sharemenu effect
 	useEffect(() => {
-		console.log('hi')
-		ActionsRestClient.getHackathon(2);
+		dispatch(login('rooth@gmail.com', 'rootrooth'));
+		// dispatch(getHackathons(0, 2));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

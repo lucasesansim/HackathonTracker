@@ -78,9 +78,6 @@ const SideBar = () => {
       open={true}
     >
       <List disablePadding classes={{root: classes.list}}>
-        {/* <li>
-            <Link to={`hackathons/3`}>Hackathon 3</Link>
-          </li> */}
         {items.map(item => {
           const { label, icon, id, link } = item;
           const IconComponent = icon;
@@ -109,7 +106,7 @@ const SideBar = () => {
           </ListItem>
         )})}
         {/* In current implementation, without a header, for time's sake,
-          * I would visually prefer to have this at the end of the list, in the lower-left corner
+          * I would visually prefer to have login redirection button at the end of the list, in the lower-left corner
           * of the screen. This margin being used isn't a good practice, specially because it doesn't 
           * adapt to varying screens, but I preferred to move on to logic instead
           * of keeping to deal with aesthetics rather to find an more orthodox way 

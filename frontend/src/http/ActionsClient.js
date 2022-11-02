@@ -3,6 +3,7 @@ import store from "../store/store";
 import AbstractRestClient from "./AbstractRestClient";
 
 class ActionsRestClient extends AbstractRestClient {
+  // In case actions need this in the future, it is good to hoist and have access to user data from here.
   getUser = () => store.getState().auth.user.id;
 
   getUserObject = () => store.getState().auth.user;
