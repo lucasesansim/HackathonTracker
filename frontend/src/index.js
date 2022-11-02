@@ -8,6 +8,7 @@ import ErrorPage from './pages/ErrorPage';
 import Hackathons from './pages/Hackathons';
 import TopDevelopers from './pages/TopDevelopers';
 import HackathonDetail from './pages/HackathonDetail';
+import Login from './pages/Login';
 
 const router = createBrowserRouter([
   {
@@ -23,12 +24,16 @@ const router = createBrowserRouter([
         path: "topDevelopers",
         element: <TopDevelopers />,
       },
-      { 
+      {
         path: "hackathons/:hackathonId",
         element: <HackathonDetail />,  // Check https://reactrouter.com/en/main/route/loader to load API even while going to that screen!
       },
     ],
   },
+  {
+    path: '/login',
+    element: <Login />,
+  }
 ])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -46,10 +46,10 @@ const items = [
 const SideBar = () => {
   const location = useLocation();
   const classes = useStyles();
-  const isAuthenticated = true;
+  const isAuthenticated = true; // TODO: CHANGE THIS TO LOGGEDIN VALUE
 
   let authItem = 
-    isAuthenticated 
+    isAuthenticated
      ? {
         AuthIcon: Logout,
         AuthLabel: 'Logout',
@@ -57,7 +57,7 @@ const SideBar = () => {
       } : {
         AuthIcon: Login,
         AuthLabel: 'Login',
-        actionProperty: {to: '/login'}
+        actionProperty: {to: '/login', component: NavLink}
       };
 
   const { AuthIcon, AuthLabel, actionProperty } = authItem;
@@ -85,7 +85,7 @@ const SideBar = () => {
           const IconComponent = icon;
           let isSelected = location.pathname === link;
           return (
-          <ListItem 
+          <ListItem
             key={id}
             disablePadding
           >
@@ -116,7 +116,6 @@ const SideBar = () => {
         <Divider style={{ marginTop: '80vh' }}/>
         <ListItem disablePadding >
             <ListItemButton 
-              component={NavLink}
               {...actionProperty}
             >
               <ListItemIcon >
