@@ -23,10 +23,10 @@ const router = createBrowserRouter([
         path: "topDevelopers",
         element: <TopDevelopers />,
       },
-      // { TODO: Check to see how will you implement this.
-      //   path: "hackathons/:hackathonId",
-      //   element: <HackathonDetail />,  // Check https://reactrouter.com/en/main/route/loader to load API even while going to that screen!
-      // },
+      { 
+        path: "hackathons/:hackathonId",
+        element: <HackathonDetail />,  // Check https://reactrouter.com/en/main/route/loader to load API even while going to that screen!
+      },
     ],
   },
 ])
@@ -38,7 +38,4 @@ root.render(
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
