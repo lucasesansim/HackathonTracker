@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { LOGOUT_REQUESTED } from '../store/types'; 
 import store from '../store/store';
+import { logout } from '../store/actions';
 
 // Create axios instance
 const instance = axios.create({
@@ -20,20 +20,20 @@ instance.interceptors.request.use(config => {
   return config;
 });
 
-// instance.interceptors.response.use(
-//   response => {
-//     return response;
-//   },
-//   error => {
-//     // if (store.getState().auth.isLoggedIn) {
-//     //   if (error.response?.status === 401) {
-//     //     // TODO: Token expired, needs to redirect to login screen
-//     //     store.dispatch({ type: LOGOUT_REQUESTED, jwtError: true });
-//     //   }
-//     // }
+instance.interceptors.response.use(
+  response => {
+    return response;
+  },
+  error => {
+    if (store.getState().auth.isLoggedIn) {
+      if (error.response?.status === 401) {
+        // Token expired, needs to redirect to login screen
+        store.dispatch(logout());
+      }
+    }
 
-//     return Promise.reject(error);
-//   }
-// );
+    return Promise.reject(error);
+  }
+);
 
 export default instance;

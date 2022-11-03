@@ -29,12 +29,12 @@ const router = createBrowserRouter([
       },
       {
         path: "hackathons/:hackathonId",
-        element: <HackathonDetail />,  // Check https://reactrouter.com/en/main/route/loader to load API even while going to that screen!
+        element: <HackathonDetail />,
       },
     ],
   },
   {
-    path: '/login',
+    path: '/auth',
     element: <Login />,
   }
 ])

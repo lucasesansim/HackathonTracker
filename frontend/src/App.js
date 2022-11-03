@@ -2,6 +2,7 @@ import './App.css';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import SideBar from './components/SideBar';
 import { makeStyles } from '@mui/styles';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
   appContainer: {
@@ -14,11 +15,11 @@ const useStyles = makeStyles({
 function App() {
   const location = useLocation();
   const classes = useStyles();
-  const isAuthenticated = true; // TODO: CHANGE THIS TO LOGGEDIN VALUE
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn); // TODO: CHANGE THIS TO LOGGEDIN VALUE
 
-  if (!isAuthenticated) {
+  if (!isLoggedIn) {
     console.log('not logged!')
-    return <Navigate to="/login" />
+    return <Navigate to="/auth" />
   }
 
   return (

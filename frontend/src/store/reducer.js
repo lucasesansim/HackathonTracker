@@ -27,7 +27,6 @@ const defaultState = {
     token: null,
     isLoggedIn: false,
     user: {},
-    jwtError: false
   },
   hackathons: {
     hackathons: [],
@@ -72,8 +71,9 @@ const reducer = (state = defaultState, action) => {
         ...state,
         status: action.type,
         auth: {
-          ...state.auth,
-          jwtError: action.jwtError || false
+          token: null,
+          isLoggedIn: false,
+          user: {},
         } 
       };
     }
