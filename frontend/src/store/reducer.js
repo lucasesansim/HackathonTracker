@@ -14,6 +14,7 @@ import {
   REGISTER_REQUESTED,
   TOP_DEVELOPERS_ERRORED,
   TOP_DEVELOPERS_REQUESTED,
+  TOP_DEVELOPERS_RETRIEVED,
 
 } from "./types";
 
@@ -82,6 +83,16 @@ const reducer = (state = defaultState, action) => {
         hackathons: {
           ...state.hackathons,
           hackathons: action.hackathons
+        }
+      };
+    }
+    case TOP_DEVELOPERS_RETRIEVED: {
+      return {
+        ...state,
+        status: action.type,
+        developers: {
+          ...state.developers,
+          topDevelopers: action.topDevelopers
         }
       };
     }

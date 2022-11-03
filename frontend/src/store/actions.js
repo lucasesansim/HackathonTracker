@@ -8,7 +8,10 @@ import {
   LOGOUT_FAILED,
   HACKATHONS_REQUESTED,
   HACKATHONS_ERRORED,
-  HACKATHONS_RETRIEVED
+  HACKATHONS_RETRIEVED,
+  TOP_DEVELOPERS_REQUESTED,
+  TOP_DEVELOPERS_RETRIEVED,
+  TOP_DEVELOPERS_ERRORED
 } from "./types";
 
 export const login = (user) => {
@@ -94,6 +97,34 @@ export const getHackathons = (page, pageSize) => {
       })
       .catch(err => {
         dispatch(hackathonsFailed(err.response));
+      });
+  };
+};
+
+export const getTopDevelopers = () => {
+  const topDevelopersRequested = () => ({
+    type: TOP_DEVELOPERS_REQUESTED
+  });
+
+  const topDevelopersRetrieved = response => ({
+    type: TOP_DEVELOPERS_RETRIEVED,
+    topDevelopers: response.data
+  });
+
+  const topDevelopersErrored = error => ({
+    type: TOP_DEVELOPERS_ERRORED,
+    error
+  });
+
+  return dispatch => {
+    dispatch(topDevelopersRequested());
+
+    return ActionsClient.listTopDevelopers()
+      .then(response => {
+          dispatch(topDevelopersRetrieved(response));
+      })
+      .catch(err => {
+        dispatch(topDevelopersErrored(err.response));
       });
   };
 };

@@ -12,13 +12,17 @@ import {
   Typography 
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Moment from 'react-moment';
-import { useDispatch, useSelector, useStore } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PropagateLoader } from 'react-spinners';
-import { getHackathons, login } from '../store/actions';
-import { HACKATHONS_ERRORED, HACKATHONS_REQUESTED, HACKATHONS_RETRIEVED } from '../store/types';
+import { getHackathons } from '../store/actions';
+import {
+	HACKATHONS_ERRORED,
+	HACKATHONS_REQUESTED,
+	HACKATHONS_RETRIEVED
+} from '../store/types';
 
 const useStyles = makeStyles({
   card: {
@@ -195,10 +199,10 @@ const hackathonData = [
 
 const Hackathons = () => {
   const classes = useStyles();
-  const [rowData, setRowData] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [pageSize, setPageSize] = React.useState(2);
-  const [loading, setLoading] = React.useState(false);
+  const [rowData, setRowData] = useState([]);
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+  const [loading, setLoading] = useState(false);
 
 	const dispatch = useDispatch();
 	const status = useSelector(state => state.status);
@@ -207,7 +211,6 @@ const Hackathons = () => {
   let prevUserStatus = '';
 
 	useEffect(() => {
-		// dispatch(login({email: 'rooth@gmail.com', password: 'rootrooth'}));
 		dispatch(getHackathons(page, pageSize));
 	}, []);
 
