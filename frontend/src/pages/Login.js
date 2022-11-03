@@ -41,7 +41,7 @@ const Login = () => {
     password: '',
     name: ''
   })
-  const [mode, setMode] = useState('register');
+  const [mode, setMode] = useState('login');
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
@@ -115,7 +115,6 @@ const Login = () => {
     return <Navigate to="/" />
   }
 
-  // console.log(authState)
   return (
     <div id="login-page" className={classes.container}>
       <Card>

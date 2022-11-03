@@ -1,7 +1,5 @@
 import axios from 'axios';
 import store from '../store/store';
-import { logout } from '../store/actions';
-
 // Create axios instance
 const instance = axios.create({
   timeout: 30000
@@ -27,8 +25,9 @@ instance.interceptors.response.use(
   error => {
     if (store.getState().auth.isLoggedIn) {
       if (error.response?.status === 401) {
-        // Token expired, needs to redirect to login screen
-        store.dispatch(logout());
+        alert('Your session has expired. Please log in again.');
+        /* Future Versions: better handling with redirect on token expiring should be done.
+         * Maybe even dispatching a logout (is bugged if just dispatching logout as is)*/
       }
     }
 
