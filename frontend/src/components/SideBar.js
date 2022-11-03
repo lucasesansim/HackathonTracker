@@ -10,7 +10,9 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
+import { logout } from "../store/actions";
 
 const useStyles = makeStyles({
   active: {
@@ -46,14 +48,15 @@ const items = [
 const SideBar = () => {
   const location = useLocation();
   const classes = useStyles();
-  const isAuthenticated = true; // TODO: CHANGE THIS TO LOGGEDIN VALUE
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
   let authItem = 
-    isAuthenticated
+    isLoggedIn
      ? {
         AuthIcon: Logout,
         AuthLabel: 'Logout',
-        actionProperty: {onClick: () => console.log('Logout')} // TODO: open modal to logout and redirect to login
+        actionProperty: {onClick: () => dispatch(logout())} // TODO: open modal to logout and redirect to login
       } : {
         AuthIcon: Login,
         AuthLabel: 'Login',
@@ -88,7 +91,7 @@ const SideBar = () => {
             disablePadding
           >
             <ListItemButton 
-              disabled={!isAuthenticated}
+              disabled={!isLoggedIn}
               component={NavLink}
               to={link}
               selected={isSelected}
@@ -96,7 +99,7 @@ const SideBar = () => {
               /* Wasn't able to override mui selected class background color
                * but I prefer using time in readying other logic 
                * over trying to figure out why it's not working... sorry. */
-              style={{ backgroundColor: `${(isSelected && isAuthenticated) ? '#ABD9F1' : ''}` }}
+              style={{ backgroundColor: `${(isSelected && isLoggedIn) ? '#ABD9F1' : ''}` }}
             >
               <ListItemIcon >
                 <IconComponent />

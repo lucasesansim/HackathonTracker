@@ -60,11 +60,10 @@ const Login = () => {
         setLoading(false);
         console.log(error.status)
 				if (error.status === 400) {
-          alert('Are you sure you introduced an email and a minimum of 6 characters password? HM!');
+          alert('Are you sure you introduced an email and password of minimum of 6 characters?? hmm?');
         } else if (error.status === 401) {
           alert('BZZZT! Wrong credentials, try again! This time with the correct ones!');
         }
-				// alert('explosion occured'); // Implement better error feedback in future versions
 			}
 		}
 		prevStatusRef.current = status;
@@ -78,10 +77,19 @@ const Login = () => {
     dispatch(login({ email: user.email, password: user.password }));
   }
 
+  const handleEnterKey = e => {
+    if (e.key === 'Enter') {
+      if (user.email !== '' && user.password !== '') {
+        handleLogin();
+      }
+    }
+  }
+
   if (authState.isLoggedIn) {
     return <Navigate to="/" />
   }
 
+  // console.log(authState)
   return (
     <div id="login-page" className={classes.container}>
       <Card>
@@ -104,6 +112,7 @@ const Login = () => {
               label="Password"
               type="password"
               value={user.password}
+              onKeyPress={handleEnterKey}
               onChange={e => setUser({ ...user, password: e.target.value })}
             />
           </div>

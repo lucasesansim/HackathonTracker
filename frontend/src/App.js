@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 function App() {
   const location = useLocation();
   const classes = useStyles();
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn); // TODO: CHANGE THIS TO LOGGEDIN VALUE
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
   if (!isLoggedIn) {
     console.log('not logged!')
@@ -26,11 +26,15 @@ function App() {
     <div className="App">
       <div className={classes.appContainer}>
         <SideBar />
-        {/* In case there is in home screen '/', 
+        {/* In case user is in home screen '/', 
           * no outlet will be there, so a Dashboard would be best in these cases,
           * yet, such Dashboard wasn't required for now, so leaving a kind message :) */}
         <div>
-          { location.pathname !== '/' ? <Outlet /> : <h1>Dashboard is still in development. Do come again soon!</h1> }
+          { 
+            location.pathname !== '/'
+            ? <Outlet />
+            : <h1>Dashboard is still in development. Do come again soon!</h1>
+          }
         </div>
       </div>
     </div>
