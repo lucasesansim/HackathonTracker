@@ -1,10 +1,26 @@
 import { EmojiEvents } from '@mui/icons-material';
-import { Avatar, Card, CardContent, Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import {
+  Avatar,
+  Card,
+  CardContent,
+  Divider,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography
+} from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PropagateLoader } from 'react-spinners';
-import { getTopDevelopers, login } from '../store/actions';
+import { getTopDevelopers } from '../store/actions';
 import { 
   TOP_DEVELOPERS_ERRORED,
   TOP_DEVELOPERS_REQUESTED,
@@ -46,6 +62,8 @@ const TopDevelopers = () => {
   useEffect(() => {
 		// dispatch(login({email: 'rooth@gmail.com', password: 'rootrooth'}));
 		dispatch(getTopDevelopers());
+  // No stale deps, this hook is meant to run only once
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
