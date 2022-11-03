@@ -88,8 +88,7 @@ export const getHackathons = (page, pageSize) => {
   return dispatch => {
     dispatch(hackathonsRequested());
 
-    // TODO: change to list
-    return ActionsClient.getHackathon(page, pageSize)
+    return ActionsClient.listHackathons(page, pageSize)
       .then(response => {
           dispatch(hackathonsRetrieved(response));
       })

@@ -12,13 +12,13 @@ import {
   Typography 
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Moment from 'react-moment';
-import { useDispatch, useStore } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PropagateLoader } from 'react-spinners';
-import ActionsRestClient from '../http/ActionsClient';
 import { getHackathons, login } from '../store/actions';
+import { HACKATHONS_ERRORED, HACKATHONS_REQUESTED, HACKATHONS_RETRIEVED } from '../store/types';
 
 const useStyles = makeStyles({
   card: {
@@ -52,14 +52,14 @@ const hackathonData = [
 		"created_at": "2022-11-01T19:49:36.000000Z",
 		"updated_at": "2022-11-01T19:49:36.000000Z",
 		"name": "Hackathon 2022-11-01 19:49:36",
-		"place": "Mordor",
+		"place": "PAPILLA",
 		"held_in": "2022-11-01 19:49:36"
 	},
 	{
 		"id": 1,
 		"created_at": "2022-10-31T16:05:35.000000Z",
 		"updated_at": "2022-10-31T16:05:35.000000Z",
-		"name": "HackTest",
+		"name": "POROTA",
 		"place": "Buenos Aires",
 		"held_in": "2022-10-30 16:05:35"
 	},
@@ -174,40 +174,76 @@ const hackathonData = [
 		"name": "HackTest",
 		"place": "Buenos Aires",
 		"held_in": "2022-10-30 16:05:35"
+	},
+	{
+		"id": 21,
+		"created_at": "2022-11-01T19:49:36.000000Z",
+		"updated_at": "2022-11-01T19:49:36.000000Z",
+		"name": "Hackathon 2022-11-01 19:49:36",
+		"place": "FINALIZo",
+		"held_in": "2022-11-01 19:49:36"
+	},
+	{
+		"id": 22,
+		"created_at": "2022-11-01T19:49:36.000000Z",
+		"updated_at": "2022-11-01T19:49:36.000000Z",
+		"name": "Hackathon 2022-11-01 19:49:36",
+		"place": "CHAN",
+		"held_in": "2022-11-01 19:49:36"
 	},
 ]
 
 const Hackathons = () => {
   const classes = useStyles();
-  const [rowData, setRowData] = React.useState(hackathonData);
+  const [rowData, setRowData] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [pageSize, setPageSize] = React.useState(2);
   const [loading, setLoading] = React.useState(false);
-	const store = useStore();
-	const dispatch = useDispatch()
-	console.log(store.getState())
+
+	const dispatch = useDispatch();
+	const status = useSelector(state => state.status);
+	const hackathons = useSelector(state => state.hackathons.hackathons);
+	const prevStatusRef = useRef();
+  let prevUserStatus = '';
 
 	useEffect(() => {
-		dispatch(login('rooth@gmail.com', 'rootrooth'));
-		// dispatch(getHackathons(0, 2));
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		// dispatch(login({email: 'rooth@gmail.com', password: 'rootrooth'}));
+		dispatch(getHackathons(page, pageSize));
 	}, []);
 
   const handleChangePage = (newPage) => {
     setPage(newPage);
-    setLoading(true);
-    // Ask for more data, REMEMBER TO ERASE CURRENT DATA ONCE NEW IS LOADED
+    dispatch(getHackathons(newPage, pageSize));
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
+  const handleChangePageSize = (event) => {
+    setPageSize(event.target.value);
     setPage(0);
   };
 
+	useEffect(() => {
+		if (prevUserStatus && prevUserStatus !== status) {
+      if (status === HACKATHONS_REQUESTED) {
+				setLoading(true);
+			}
+			if (status === HACKATHONS_RETRIEVED) {
+				setLoading(false);
+				setRowData([...hackathons]);
+			}
+			if (status === HACKATHONS_ERRORED) {
+				setLoading(false);
+				alert('explosion occured'); // Implement better error feedback in future versions
+			}
+		}
+		prevStatusRef.current = status;
+    // There aren't stale deps on this useEffect, as this depends on status mostly.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, prevStatusRef]);
+
+	prevUserStatus = prevStatusRef.current;
+
   return (
     <>
-      {/* <h1>Hackathons</h1> */}
-      {/* Check if when having full table data, the minWidht isn't needed */}
       <Card  className={classes.card} variant="outlined"> 
         <CardContent>
           <Typography variant="h4" align='left'>
@@ -240,7 +276,8 @@ const Hackathons = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rowData.map(hackathon => (
+                {rowData
+									.map(hackathon => (
                   <TableRow
                     key={hackathon.id}
                     hover
@@ -264,15 +301,22 @@ const Hackathons = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          {/* TODO: further implementation, use infinite scroller for smoother UX. */}
+          {/* Future Versions: implement infinite scroller for smoother UX. */}
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
-            count={-1} // This would count total pagination available, but only db has total number. Could get as fascets in future implementation
-            rowsPerPage={rowsPerPage}
+						/* This would count total pagination available, but only db has total number. 
+						 * Could get as fascets in future implementation. */
+            count={-1} 
+            rowsPerPage={pageSize}
             page={page}
             onPageChange={(event, page) => handleChangePage(page)}
-            onRowsPerPageChange={handleChangeRowsPerPage}
+            onRowsPerPageChange={handleChangePageSize}
+						/* Future Versions: pagination has a bug where if amount in db has total of N files, 
+						 * where N % pageSize === 0,then pagination would let you advance up to an empty page. 
+						 * When fascets that indicate total stored in db are implemented, 
+						 * disabling next page button should be revisited */
+						nextIconButtonProps={{disabled: (rowData.length < page * pageSize)}}
           />
           {loading && (
             <div className={classes.loader}>

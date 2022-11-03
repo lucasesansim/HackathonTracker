@@ -32,10 +32,7 @@ class ActionsRestClient extends AbstractRestClient {
   }
 
   listHackathons(page, pageSize) {
-    return this.instance.get(`/api/hackathons`, {
-      page,
-      pageSize
-    });
+    return this.instance.get(`/api/hackathons`, { params: { page, pageSize } });
   }
 
   getHackathon(hackathonId) {
