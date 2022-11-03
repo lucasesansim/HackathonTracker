@@ -43,9 +43,13 @@ class AuthController extends Controller
         );
         $user = User::create($userData);
 
+        $credentials = [
+            'email' => $request->email,
+            'password' => $request->password
+        ];
         return response()->json([
             'message' => 'User created',
-            'token' => JWTAuth::attempt(array($request->email, $request->password)),
+            'token' => JWTAuth::attempt($credentials),
             'user' => $user
         ]);
     }
