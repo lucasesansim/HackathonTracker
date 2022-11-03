@@ -198,12 +198,12 @@ const hackathonData = [
 ]
 
 const Hackathons = () => {
-  const classes = useStyles();
   const [rowData, setRowData] = useState([]);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [loading, setLoading] = useState(false);
 
+	const classes = useStyles();
 	const dispatch = useDispatch();
 	const status = useSelector(state => state.status);
 	const hackathons = useSelector(state => state.hackathons.hackathons);
@@ -281,17 +281,14 @@ const Hackathons = () => {
               <TableBody>
                 {rowData
 									.map(hackathon => (
-                  <TableRow
-                    key={hackathon.id}
-                    hover
-                  >
+                  <TableRow key={hackathon.id} hover>
                     <TableCell component="th" scope="row">
                       <Link to={`/hackathons/${hackathon.id}`}>
-                        {hackathon.name}
+                        { hackathon.name }
                       </Link>
                     </TableCell>
                     <TableCell>
-                      {hackathon.place}
+                      { hackathon.place }
                     </TableCell>
                     <TableCell>
                       <Moment 
