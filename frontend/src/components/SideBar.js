@@ -56,7 +56,7 @@ const SideBar = () => {
      ? {
         AuthIcon: Logout,
         AuthLabel: 'Logout',
-        actionProperty: {onClick: () => dispatch(logout())} // TODO: open modal to logout and redirect to login
+        actionProperty: {onClick: () => dispatch(logout())}
       } : {
         AuthIcon: Login,
         AuthLabel: 'Login',
