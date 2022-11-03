@@ -11,7 +11,10 @@ import {
   HACKATHONS_RETRIEVED,
   TOP_DEVELOPERS_REQUESTED,
   TOP_DEVELOPERS_RETRIEVED,
-  TOP_DEVELOPERS_ERRORED
+  TOP_DEVELOPERS_ERRORED,
+  HACKATHON_REQUESTED,
+  HACKATHON_RETRIEVED,
+  HACKATHON_ERRORED
 } from "./types";
 
 export const login = (user) => {
@@ -125,6 +128,34 @@ export const getTopDevelopers = () => {
       })
       .catch(err => {
         dispatch(topDevelopersErrored(err.response));
+      });
+  };
+};
+
+export const getHackathon = id => {
+  const hackathonRequested = () => ({
+    type: HACKATHON_REQUESTED
+  });
+
+  const hackathonRetrieved = response => ({
+    type: HACKATHON_RETRIEVED,
+    hackathon: response.data
+  });
+
+  const hackathonErrored = error => ({
+    type: HACKATHON_ERRORED,
+    error
+  });
+
+  return dispatch => {
+    dispatch(hackathonRequested());
+
+    return ActionsClient.getHackathon(id)
+      .then(response => {
+          dispatch(hackathonRetrieved(response));
+      })
+      .catch(err => {
+        dispatch(hackathonErrored(err.response));
       });
   };
 };

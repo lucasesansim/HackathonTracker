@@ -4,6 +4,7 @@ import {
   HACKATHONS_RETRIEVED,
   HACKATHON_ERRORED,
   HACKATHON_REQUESTED,
+  HACKATHON_RETRIEVED,
   LOGIN_FAILED,
   LOGIN_REQUESTED,
   LOGIN_SUCCESSFUL,
@@ -83,6 +84,16 @@ const reducer = (state = defaultState, action) => {
         hackathons: {
           ...state.hackathons,
           hackathons: action.hackathons
+        }
+      };
+    }
+    case HACKATHON_RETRIEVED: {
+      return {
+        ...state,
+        status: action.type,
+        hackathons: {
+          ...state.hackathons,
+          hackathon: action.hackathon
         }
       };
     }
