@@ -14,7 +14,10 @@ import {
   TOP_DEVELOPERS_ERRORED,
   HACKATHON_REQUESTED,
   HACKATHON_RETRIEVED,
-  HACKATHON_ERRORED
+  HACKATHON_ERRORED,
+  REGISTER_REQUESTED,
+  REGISTER_SUCCESSFUL,
+  REGISTER_FAILED
 } from "./types";
 
 export const login = (user) => {
@@ -48,7 +51,6 @@ export const login = (user) => {
   };
 };
 
-// TODO: Should include if there was jwt error
 export const logout = () => {
   const logoutRequested = () => ({
     type: LOGOUT_REQUESTED
@@ -72,6 +74,38 @@ export const logout = () => {
       })
       .catch(err => {
         dispatch(logoutFailed(err.response));
+      });
+  };
+};
+
+export const register = (newUser) => {
+  const registerRequested = () => ({
+    type: REGISTER_REQUESTED
+  });
+
+  const registerSuccessful = response => {
+    const { token, user } = response.data;
+    return {
+      type: REGISTER_SUCCESSFUL,
+      token,
+      user
+    } 
+  };
+
+  const registerFailed = error => ({
+    type: REGISTER_FAILED,
+    error
+  });
+
+  return dispatch => {
+    dispatch(registerRequested());
+
+    return ActionsClient.register(newUser)
+      .then(response => {
+          dispatch(registerSuccessful(response));
+      })
+      .catch(err => {
+        dispatch(registerFailed(err.response));
       });
   };
 };

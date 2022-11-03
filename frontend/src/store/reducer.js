@@ -13,6 +13,7 @@ import {
   LOGOUT_SUCCESSFUL,
   REGISTER_FAILED,
   REGISTER_REQUESTED,
+  REGISTER_SUCCESSFUL,
   TOP_DEVELOPERS_ERRORED,
   TOP_DEVELOPERS_REQUESTED,
   TOP_DEVELOPERS_RETRIEVED,
@@ -54,7 +55,8 @@ const reducer = (state = defaultState, action) => {
     }
 
 
-    case LOGIN_SUCCESSFUL: {
+    case LOGIN_SUCCESSFUL: 
+    case REGISTER_SUCCESSFUL: {
       return {
         ...state,
         status: action.type,
