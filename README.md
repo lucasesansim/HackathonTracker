@@ -34,7 +34,7 @@ services.
 - Teams are not taken into account per se, would probably register them using the columns I already used, though it would be attractive to look forward to implementing a Teams table (or evaluation the best implementation for the idea), so that developers can participate by themselves, or in a team with other people.
 
 ### General Notes
-- For a more thorough follow up on the thought process, the planification and how the challenge was implemented step by step, I encourage you to visit the PR section, as each commit would normally show pretty well what issue was I tackling and in what order.
+- For a more thorough follow up on the thought process, the planification and how the challenge was implemented step by step, I encourage you to visit the PR section, as each commit would normally show pretty well what issue was I tackling and in what order; as well as the fact of how I documented the changes done too. I do think that the documentation is similar in extension and description as to what I'd do in a day to day basis.
 - From here onwards, I'll list instructions, or explain myself on why I did certain things. I wouldn't normally do such a thorough explanation, but I do know that being able to peek on the decision-making is a key part of the process of the review, and so I'm making the effort to describe as much as possible. I am grateful in advance for the time invested in reading, if you wish to do so.
 
 ### Frontend Development
