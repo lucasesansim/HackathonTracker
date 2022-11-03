@@ -10,15 +10,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class HackathonController extends Controller
 {
-    // protected $user;
-    // public function __construct(Request $request)
-    // {
-    //     $token = $request->header('Authorization');
-    //     if($token != '')
-    //         //En caso de que requiera autentifiación la ruta obtenemos el usuario y lo almacenamos en una variable, nosotros no lo utilizaremos.
-    //         $this->user = JWTAuth::parseToken()->authenticate();
-    // }
-
     /**
      * Display a listing of Hackathons based in page and pagesize.
      * This API is the one that fulfills 'retrieve both hackathons with their developers' requirement.
@@ -27,6 +18,7 @@ class HackathonController extends Controller
      */
     public function list(Request $request)
     {
+        // Abstraer afuera
         $data = $request->only('page', 'pageSize');
         $validator = Validator::make($data, [
             'page' => 'required|integer',
@@ -36,35 +28,34 @@ class HackathonController extends Controller
             return response()->json(['error' => $validator->failed()], Response::HTTP_BAD_REQUEST);
         }
 
-        $hackathons = Hackathon::orderBy('held_in', 'desc')
+        $hackathons = Hackathon::with(['developers'])
+            ->orderBy('held_in', 'desc')
             ->offset($data['page'] * $data['pageSize'])
             ->limit($data['pageSize'])
             ->get();
-
-        // This snippet is for the Eloquent ORM to include in the response
-        foreach ($hackathons as $hackathon) {
-            $hackathon->developers;
-            $hackathon->developments; // TODO: might remove if no time for opening new screen that fetches Hackathon detail
-        }
         
         return response()->json($hackathons, Response::HTTP_OK);
     }
 
     /**
-     * Display the specified hackathon.
+     * Display the specified hackathon, with its developments ordered ascendently by rank.
      *
      * @param  \App\Models\Hackathon  $hackathon
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $hackathon = Hackathon::find($id);
+        $hackathon = Hackathon::with([
+            'developments' => function ($query) {
+                $query->orderBy('rank', 'asc');
+            }
+        ])->find($id);
+
         if (!$hackathon) {
             return response()->json([
                 'message' => 'Product not found.'
             ], Response::HTTP_NOT_FOUND);
         }
-        $hackathon->developments;
 
         return $hackathon;
     }
