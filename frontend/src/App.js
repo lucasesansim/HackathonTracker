@@ -18,7 +18,6 @@ function App() {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
   if (!isLoggedIn) {
-    console.log('not logged!')
     return <Navigate to="/auth" />
   }
 

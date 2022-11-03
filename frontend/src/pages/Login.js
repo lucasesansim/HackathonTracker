@@ -1,11 +1,25 @@
 import { LoadingButton } from '@mui/lab';
-import { Button, Card, CardActions, CardContent, TextField, Typography } from '@mui/material';
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  TextField,
+  Typography
+} from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { login, register } from '../store/actions';
-import { LOGIN_FAILED, LOGIN_REQUESTED, LOGIN_SUCCESSFUL, REGISTER_FAILED, REGISTER_REQUESTED, REGISTER_SUCCESSFUL } from '../store/types';
+import { 
+  LOGIN_FAILED,
+  LOGIN_REQUESTED,
+  LOGIN_SUCCESSFUL,
+  REGISTER_FAILED,
+  REGISTER_REQUESTED,
+  REGISTER_SUCCESSFUL
+} from '../store/types';
 
 const useStyles = makeStyles({
   container: {
@@ -53,7 +67,6 @@ const Login = () => {
   let prevUserStatus = '';
 
 	useEffect(() => {
-    console.log(status)
 		if (prevUserStatus && prevUserStatus !== status) {
       if (status === LOGIN_REQUESTED || status === REGISTER_REQUESTED) {
 				setLoading(true);
