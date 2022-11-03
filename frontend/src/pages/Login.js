@@ -1,5 +1,5 @@
 import { LoadingButton } from '@mui/lab';
-import { Card, CardContent, TextField, Typography } from '@mui/material';
+import { Button, Card, CardActions, CardContent, TextField, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,6 +29,9 @@ const useStyles = makeStyles({
   },
   loginButton: {
     width: '100%'
+  },
+  loginOrRegister: {
+    paddingLeft: 0
   }
 });
 
@@ -165,6 +168,12 @@ const Login = () => {
               { mode === 'login' ? 'Login' : 'Register' }
             </LoadingButton>
           </div>
+          {/* Wouldn't normally mix using inline styling vs classes */}
+          <CardActions style={{ paddingLeft: 0 }}>
+            <Button size="small" onClick={() => setMode(mode === 'login' ? 'register' : 'login')}>
+              { mode === 'login' ? 'Signup first' : 'Login with my account' }
+            </Button>
+          </CardActions>
         </CardContent>
       </Card>
     </div>
