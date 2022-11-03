@@ -11,17 +11,17 @@ import {
   HACKATHONS_RETRIEVED
 } from "./types";
 
-export const login = (username, password) => {
+export const login = (user) => {
   const loginRequested = () => ({
     type: LOGIN_REQUESTED
   });
 
   const loginSuccessful = response => {
-    const { token, data } = response.data;
+    const { token, user } = response.data;
     return {
       type: LOGIN_SUCCESSFUL,
       token,
-      user: data
+      user
     };
   };
 
@@ -34,7 +34,7 @@ export const login = (username, password) => {
     dispatch(loginRequested());
 
     try {
-      const response = await ActionsClient.login(username, password);
+      const response = await ActionsClient.login(user);
       dispatch(loginSuccessful(response));
     } catch (err) {
       dispatch(loginFailed(err.response));
@@ -88,6 +88,7 @@ export const getHackathons = (page, pageSize) => {
   return dispatch => {
     dispatch(hackathonsRequested());
 
+    // TODO: change to list
     return ActionsClient.getHackathon(page, pageSize)
       .then(response => {
           dispatch(hackathonsRetrieved(response));

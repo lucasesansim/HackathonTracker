@@ -9,8 +9,9 @@ import Hackathons from './pages/Hackathons';
 import TopDevelopers from './pages/TopDevelopers';
 import HackathonDetail from './pages/HackathonDetail';
 import Login from './pages/Login';
-import store from './store/store';
+import store, { persistor } from './store/store';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const router = createBrowserRouter([
   {
@@ -41,7 +42,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <RouterProvider router={router} />
+    <PersistGate persistor={persistor}>
+      <RouterProvider router={router} />
+    </PersistGate>
   </Provider>
 )
 reportWebVitals();

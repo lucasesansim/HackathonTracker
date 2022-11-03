@@ -6,6 +6,7 @@ import {
   HACKATHON_REQUESTED,
   LOGIN_FAILED,
   LOGIN_REQUESTED,
+  LOGIN_SUCCESSFUL,
   LOGOUT_FAILED,
   LOGOUT_REQUESTED,
   LOGOUT_SUCCESSFUL,
@@ -46,16 +47,28 @@ const reducer = (state = defaultState, action) => {
     case HACKATHON_REQUESTED:
     case TOP_DEVELOPERS_REQUESTED: {
       return {
-        ...defaultState,
-        status: LOGOUT_REQUESTED
+        ...state,
+        status: action.type
       };
     }
 
 
+    case LOGIN_SUCCESSFUL: {
+      return {
+        ...state,
+        status: action.type,
+        auth: {
+          ...state.auth,
+          token: action.token,
+          user: action.user,
+          isLoggedIn: true
+        } 
+      };
+    }
     case LOGOUT_SUCCESSFUL: {
       return {
-        ...defaultState,
-        status: LOGOUT_SUCCESSFUL,
+        ...state,
+        status: action.type,
         auth: {
           ...state.auth,
           jwtError: action.jwtError || false
@@ -64,8 +77,8 @@ const reducer = (state = defaultState, action) => {
     }
     case HACKATHONS_RETRIEVED: {
       return {
-        ...defaultState,
-        status: LOGOUT_SUCCESSFUL,
+        ...state,
+        status: action.type,
         hackathons: {
           ...state.hackathons,
           hackathons: action.hackathons
@@ -80,8 +93,8 @@ const reducer = (state = defaultState, action) => {
     case HACKATHON_ERRORED:
     case TOP_DEVELOPERS_ERRORED: {
       return {
-        ...defaultState,
-        status: LOGOUT_REQUESTED,
+        ...state,
+        status: action.type,
         error: action.error
       };
     }
