@@ -62,7 +62,7 @@ const TopDevelopers = () => {
   useEffect(() => {
 		// dispatch(login({email: 'rooth@gmail.com', password: 'rootrooth'}));
 		dispatch(getTopDevelopers());
-    
+
     // No stale deps, this hook is meant to run only once
     // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -89,7 +89,7 @@ const TopDevelopers = () => {
 	prevUserStatus = prevStatusRef.current;
 
   return (
-    <Card  className={classes.card} variant="outlined"> 
+    <Card className={classes.card} variant="outlined"> 
       <CardContent>
         <Typography variant="h4" align='left'>
           Top 10 Developers!

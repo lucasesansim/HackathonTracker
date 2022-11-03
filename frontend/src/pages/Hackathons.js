@@ -86,7 +86,7 @@ const Hackathons = () => {
 
   return (
     <>
-      <Card  className={classes.card} variant="outlined"> 
+      <Card className={classes.card} variant="outlined"> 
         <CardContent>
           <Typography variant="h4" align='left'>
             Hackathon List
