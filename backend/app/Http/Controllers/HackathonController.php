@@ -18,7 +18,6 @@ class HackathonController extends Controller
      */
     public function list(Request $request)
     {
-        // Abstraer afuera
         $data = $request->only('page', 'pageSize');
         $validator = Validator::make($data, [
             'page' => 'required|integer',
