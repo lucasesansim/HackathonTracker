@@ -40,7 +40,7 @@ services.
 ### Frontend Development
 - run `npm start` while on /frontend directory to start the development server in `localhost:3000`
 
-#### Backend Notes
+#### Frontend Notes
 - Honestly, it was the first time I set up axios and Redux from scratch, so this all was a great learning experience. Of course, once I was reminded that originally, redux doesn't persist, I wasn't as pleasantly surprised, but thankfully, I did manage to overcome the obstacles regarding implementing Redux and Axios.
 - I do recognize that maybe implementing Redux was a bit overkill... maybe it wasn't, but I did wanted to specifically use it as I feel skills using Redux are much needed.
 - I do think that the way I made use of the general layout components, like `<SideBar />` and how it is implemented in `App.js`, together with `<Outlet />` are a bit funky in regards to how I implemented. Yet, I decided to not dwell further on this in sake of time, but I think refactoring is much needed here. Specially since much of the visual proportions are hardcoded with things like '80vh', which isn't the best way to take care of this in terms of visuals.
@@ -48,6 +48,7 @@ services.
 - I recognize I could have done a bit better with configuring es-lint to automatically lint the code and commiting that so the codebase is cohesive, though I did my best to manually keep a clean and cohesive code.
 - There were times when I didn't manage to achieve something I wanted to do the most orthodox way, and because things like these could take me more time than expected, I decided to write a comment about what would be the best way to handle the situation, and moved on. Example: For some reason I wasn't managing to override MUI's ListButton's selected styles, so after quite a bit of fighting with it, I decided to write about what was my intention and move on.
 - You will notice I left some comments that say 'Future Versions:'. These would lead to things that I'd like to change, but as I saw as mostly a bonus, or something that wasn't that relevant to what I thought was useful to evaluate. Thus, I made note of them and moved on. I worked in this manner because I wanted to prioritize time, it being that the handing in of the project was already somewhat delayed, I didn't want to keep delaying further and hand in ASAP.
+- About the 'Dashboard in development', I thought it was more sound that after a login you go into a dashboard, and not directly into a specific list, but instead, the general overview of the platform. It seemed also better to do so with the routing, and where '/' lead to.
 
 ### Backend Development
 
@@ -59,6 +60,8 @@ services.
 - Regarding the hackathon list api, and what I considered previously to be a somewhat useless inclusion of its developers, I don' t think it is that necessary mostly because the hackathons retrieved are necessarily paginated. Even though it may be heavier to fetch 2000 records, which would mean 20.000 developers on a more normal usage of said pagination, I don't think its that relevant.
 - During the planning stages, I admit I blocked myself a bit while thinking on how to calculate which were the top 10 developers amongst the entire group of hackathons, thinking about searching all of a developer's developments, adding points based of thier ranks, and then ordering that... Then, after thinking it was totally unreasonable and unscalable to do such a query, I sought for another method. Of course, the easiest way was to add a column of total points for each developer, that would be added to each time a developer participates in a hackathon. But of course, I didn't see such a simple solution at first...
 
+### Small Demo
+https://user-images.githubusercontent.com/60542511/199766288-ce1edccd-3747-4aeb-bd50-a35be073bea9.mp4
 
 ### Ending
 Thank you for reading up to here! 
